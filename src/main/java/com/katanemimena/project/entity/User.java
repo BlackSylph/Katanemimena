@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table(name = "users",
 uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
-        @UniqueConstraint(columnNames = "email")
 })
 public class User {
 	
@@ -65,6 +64,13 @@ public class User {
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.email = email;
+	}
+
+	public User(String username, String password, String email) {
+		super();
+		this.username = username;
+		this.password = password;
 		this.email = email;
 	}
 

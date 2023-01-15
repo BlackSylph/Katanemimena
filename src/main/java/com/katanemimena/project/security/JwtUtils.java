@@ -1,17 +1,20 @@
 package com.katanemimena.project.security;
 
-import gr.hua.dit.springbootdemo.service.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import com.katanemimena.project.service.UserDetailsImpl;
+
 import io.jsonwebtoken.*;
 
 import java.util.Date;
 
 @Component
 public class JwtUtils {
+	
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${app.jwtSecret}")
