@@ -1,16 +1,14 @@
 package com.katanemimena.project.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import java.util.Set;
 
 @Entity
 @Table(name = "transferStatements")
-public class TransferStatement {
+public class TransferStatement implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,14 +20,6 @@ public class TransferStatement {
 	
 	@Column(name = "fee")
 	private Float fee;
-
-    @Enumerated(EnumType.STRING)
-	@Column(name = "buyerAccept", length = 20)
-	private EStatus buyerAccept;
-
-    @Enumerated(EnumType.STRING)
-	@Column(name = "sellerAccept", length = 20)
-	private EStatus sellerAccept;
 	
 	@Column(name = "feePaid")
 	private boolean feePaid;
@@ -37,30 +27,16 @@ public class TransferStatement {
 	@Column(name = "completed")
 	private boolean completed;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
-    })
-    @JoinTable(
-            name = "user_transferStatements",
-            joinColumns = @JoinColumn(name = "transferStatementId"),
-            inverseJoinColumns = @JoinColumn(name = "userId")
-    )
-    @JsonIdentityInfo(generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
-    private List<User> users;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.transferStatement")
+	private Set<UserTransferStatement> userTransferStatements;
     
 	public TransferStatement() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public TransferStatement(Long id, String text, Float fee, EStatus buyerAccept, EStatus sellerAccept,
-			boolean feePaid, boolean completed) {
-		super();
+	public TransferStatement(Long id, String text, Float fee, boolean feePaid, boolean completed) {
 		this.id = id;
 		this.text = text;
 		this.fee = fee;
-		this.buyerAccept = buyerAccept;
-		this.sellerAccept = sellerAccept;
 		this.feePaid = feePaid;
 		this.completed = completed;
 	}
@@ -89,22 +65,6 @@ public class TransferStatement {
 		this.fee = fee;
 	}
 
-	public EStatus getBuyerAccept() {
-		return buyerAccept;
-	}
-
-	public void setBuyerAccept(EStatus buyerAccept) {
-		this.buyerAccept = buyerAccept;
-	}
-
-	public EStatus getSellerAccept() {
-		return sellerAccept;
-	}
-
-	public void setSellerAccept(EStatus sellerAccept) {
-		this.sellerAccept = sellerAccept;
-	}
-
 	public boolean isFeePaid() {
 		return feePaid;
 	}
@@ -119,19 +79,5 @@ public class TransferStatement {
 
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
-	}
-
-    public void addUser(User user) {
-        if (users == null) {
-            users = new ArrayList<>();
-        }
-
-        users.add(user);
-    }
-    
-	@Override
-	public String toString() {
-		return "TransferStatement [id=" + id + ", text=" + text + ", fee=" + fee + ", buyerAccept=" + buyerAccept
-				+ ", sellerAccept=" + sellerAccept + ", feePaid=" + feePaid + ", completed=" + completed + "]";
 	}
 }

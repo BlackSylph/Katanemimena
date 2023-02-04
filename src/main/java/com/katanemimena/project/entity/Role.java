@@ -5,21 +5,24 @@ import javax.persistence.*;
 @Entity
 @Table(name = "roles")
 public class Role {
-	
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "name", length = 20)
-    private ERole name;
+    @Column(name = "name")
+    private String name;
 
     public Role() {
-
     }
 
-    public Role(ERole name) {
+    public Role(Integer id) {
+        this.id = id;
+    }
+
+    public Role(Integer id, String name) {
+        this.id = id;
         this.name = name;
     }
 
@@ -31,11 +34,11 @@ public class Role {
         this.id = id;
     }
 
-    public ERole getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(ERole name) {
+    public void setName(String name) {
         this.name = name;
     }
 }
