@@ -11,11 +11,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class MyUserDetails implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
     private User user;
 
-    public MyUserDetails(User user) {
+    public UserDetailsImpl(User user) {
         this.user = user;
     }
 
@@ -59,5 +59,9 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return user.isEnabled();
+    }
+
+    public Long getId() {
+        return user.getId();
     }
 }
